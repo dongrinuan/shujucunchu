@@ -1,0 +1,52 @@
+{
+  "name": "数字存储系统",
+  "version": "1.0.0",
+  "description": "一个现代化的文件存储管理平台，支持多级密码保护、体积限制管理、文件和文本存储等功能",
+  "author": "AI Assistant",
+  "license": "MIT",
+  "created": "2025-09-06",
+  "requirements": {
+    "php": ">=7.4",
+    "mysql": ">=5.7",
+    "apache": ">=2.4"
+  },
+  "features": [
+    "双重密码保护",
+    "文件和文本存储",
+    "体积限制管理",
+    "响应式设计",
+    "多种布局模式",
+    "分页浏览",
+    "管理员后台",
+    "操作日志"
+  ],
+  "directories": {
+    "admin": "管理员后台",
+    "assets": "静态资源文件",
+    "config": "配置文件",
+    "database": "数据库结构文件",
+    "includes": "公共函数库",
+    "uploads": "用户上传文件存储"
+  },
+  "main_files": {
+    "index.php": "系统主页",
+    "storage_interface.php": "存储管理界面",
+    "user_action.php": "用户操作处理",
+    "download.php": "文件下载处理",
+    "get_text_content.php": "文本内容获取",
+    "get_volume_info.php": "体积信息API",
+    "logout.php": "登出处理"
+  },
+  "default_admin": {
+    "username": "admin",
+    "password": "admin123",
+    "note": "首次登录后请立即修改密码"
+  },
+  "security": [
+    "PHP password_hash() 密码加密",
+    "PDO预处理语句防SQL注入",
+    "文件上传类型检测",
+    "XSS防护",
+    "会话安全管理"
+  ]
+}
