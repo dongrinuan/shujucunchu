@@ -205,21 +205,21 @@ function generateUniqueStorageId($pdo) {
 
 // 检查存储柜是否需要设置二级密码
 function needsPassword2Setup($pdo, $storage_id) {
-    $stmt = $pdo->prepare("SELECT password2_set FROM main_storages WHERE storage_id = ?");
+    $stmt = $pdo->prepare("SELECT password2 FROM main_storages WHERE storage_id = ?");
     $stmt->execute([$storage_id]);
     $result = $stmt->fetch();
-    return $result ? !$result['password2_set'] : true;
+    return $result ? empty($result['password2']) : true;
 }
 
 // 设置二级密码
 function setPassword2($pdo, $storage_id, $password2) {
-    $stmt = $pdo->prepare("UPDATE main_storages SET password2 = ?, password2_set = TRUE, password2_set_at = NOW() WHERE storage_id = ?");
+    $stmt = $pdo->prepare("UPDATE main_storages SET password2 = ? WHERE storage_id = ?");
     return $stmt->execute([password_hash($password2, PASSWORD_DEFAULT), $storage_id]);
 }
 
 // 验证存储柜密码
 function validateStoragePasswords($pdo, $storage_id, $password1, $password2 = null) {
-    $stmt = $pdo->prepare("SELECT password1, password2, password2_set FROM main_storages WHERE storage_id = ?");
+    $stmt = $pdo->prepare("SELECT password1, password2 FROM main_storages WHERE storage_id = ?");
     $stmt->execute([$storage_id]);
     $storage = $stmt->fetch();
     
@@ -233,7 +233,7 @@ function validateStoragePasswords($pdo, $storage_id, $password1, $password2 = nu
     }
     
     // 如果二级密码未设置，返回需要设置
-    if (!$storage['password2_set']) {
+    if (empty($storage['password2'])) {
         return ['valid' => true, 'needs_password2_setup' => true, 'message' => '需要设置二级密码'];
     }
     
